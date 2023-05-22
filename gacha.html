@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Genshin Impact Gacha Simulator</title>
+  </head>
+  <body>
+    <h1>Genshin Impact Gacha Simulator</h1>
+    <p>Click the button to run the gacha:</p>
+    <button onclick="gacha.singlePull()">Single Pull</button>
+    <button onclick="gacha.tenPull()">10-Pull</button>
+    <script>
+// Define hero names
+const heroes = {
+  5: ["John", "Jane", "Alex"],
+  4: ["Jolene", "MC-2", "Carol"],
+  3: ["Weapon- Lexicon Rinser", "Weapon- Eclipse Slasher"]
+};
+
+// Define gacha functions
+const gacha = {
+  pull(rarity, isTenPull) {
+    const x = Math.floor(Math.random() * 100) + 1;
+    if (isTenPull) {
+      // Guarantee a 4-star or better hero in every 10-pull
+      if (x <= 6) {
+        rarity = 5;
+      } else if (x <= 57) {
+        rarity = 4;
+      }
+    }
+    switch (rarity) {
+      case 5:
+        if (x > 99.1) {
+          console.log("5 star won");
+          return this.chooseHero(5);
+        }
+        break;
+      case 4:
+        if (x > 80) {
+          console.log("4 star won");
+          return this.chooseHero(4);
+        }
+        break;
+      case 3:
+        console.log("3 star won");
+        return this.chooseHero(3);
+    }
+  },
+
+  chooseHero(rarity) {
+    const heroList = heroes[rarity];
+    const index = Math.floor(Math.random() * heroList.length);
+    const hero = heroList[index];
+    console.log(`Hero won: ${hero}`);
+  },
+
+  singlePull() {
+    this.pull(5, false) || this.pull(4, false) || this.pull(3, false);
+  },
+
+  tenPull() {
+    console.clear()
+    let guarantee4Star = true;
+    for (let i = 0; i < 10; i++) {
+      console.log(`-- Pull #${i + 1} --`);
+      if (guarantee4Star && i === 9) {
+        this.pull(4, true);
+      } else {
+        this.singlePull();
+      }
+    }
+  }
+};
+
+// Test the gacha system
+gacha.singlePull(); // Perform a single pull
+console.log("------------");
+gacha.tenPull(); // Perform a ten-pull with 4-star guarantee
+    </script>
+  </body>
+</html>
