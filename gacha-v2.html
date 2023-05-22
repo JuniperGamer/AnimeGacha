@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Genshin Impact Gacha Simulator</title>
+    <style>
+      .result {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Genshin Impact Gacha Simulator</h1>
+    <p>Click the button to run the gacha:</p>
+    <button onclick="runSinglePull()">Single Pull</button>
+    <button onclick="runTenPull()">10-Pull</button>
+    <div id="results"></div>
+
+    <script>
+      // Define hero names
+      const heroes = {
+        5: ["John", "Jane", "Alex"],
+        4: ["Jolene", "MC-2", "Carol"],
+        3: ["Weapon- Lexicon Rinser", "Weapon- Eclipse Slasher"]
+      };
+
+      // Display gacha result
+      function displayResult(result) {
+        const resultsContainer = document.getElementById("results");
+        const resultElement = document.createElement("div");
+        resultElement.className = "result";
+        resultElement.textContent = result;
+        resultsContainer.appendChild(resultElement);
+      }
+
+      // Clear previous results
+      function clearResults() {
+        const resultsContainer = document.getElementById("results");
+        resultsContainer.textContent = "";
+      }
+
+      // Define gacha functions
+      const gacha = {
+        pull(rarity, isTenPull) {
+          const x = Math.floor(Math.random() * 100) + 1;
+          if (isTenPull) {
+            // Guarantee a 4-star or better hero in every 10-pull
+            if (x <= 6) {
+              rarity = 5;
+            } else if (x <= 57) {
+              rarity = 4;
+            }
+          }
+          switch (rarity) {
+            case 5:
+              if (x > 99.1) {
+                const hero = this.chooseHero(5);
+                displayResult(`5 star won: ${hero}`);
+                return hero;
+              }
+              break;
+            case 4:
+              if (x > 80) {
+                const hero = this.chooseHero(4);
+                displayResult(`4 star won: ${hero}`);
+                return hero;
+              }
+              break;
+            case 3:
+              const hero = this.chooseHero(3);
+              displayResult(`3 star won: ${hero}`);
+              return hero;
+          }
+        },
+
+        chooseHero(rarity) {
+          const heroList = heroes[rarity];
+          const index = Math.floor(Math.random() * heroList.length);
+          return heroList[index];
+        },
+
+        singlePull() {
+          this.pull(5, false) || this.pull(4, false) || this.pull(3, false);
+        },
+
+        tenPull() {
+          clearResults();
+          let guarantee4Star = true;
+          for (let i = 0; i < 10; i++) {
+            displayResult(`-- Pull #${i + 1} --`);
+            if (guarantee4Star && i === 10) { // Corrected condition
+              this.pull(4, true);
+            } else {
+              this.singlePull();
+            }
+          }
+        }
+      };
+
+      // Run single pull and display result
+      function runSinglePull() {
+        clearResults();
+        gacha.singlePull();
+      }
+
+      // Run ten-pull and display results
+      function runTenPull() {
+        clearResults();
+        gacha.tenPull();
+      }
+    </script>
+  </body>
+</html>
