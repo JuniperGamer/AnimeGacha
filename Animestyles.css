@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1 {
+    color: #333333;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gacha-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .gacha-buttons button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #4caf50;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .gacha-buttons button:hover {
+    background-color: #45a049;
+  }
+  
+  .results {
+    margin-top: 20px;
+  }
+  
+  .results .result {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+  }
+  
+  .results .result .rarity-5 {
+    color: #ff6600;
+  }
+  
